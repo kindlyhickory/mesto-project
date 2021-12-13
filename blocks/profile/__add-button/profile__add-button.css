@@ -1,0 +1,10 @@
+.profile__add-button {
+  border: 1px solid #fff;
+  background-image: url("../../../images/add_button.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #000;
+  width: 100%;
+  height: inherit;
+  padding: 0;
+}

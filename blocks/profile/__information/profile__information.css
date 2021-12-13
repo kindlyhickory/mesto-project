@@ -1,0 +1,30 @@
+.profile__information {
+  margin: 22px 0 0 30px;
+  width: 38.18%;
+  display: grid;
+  column-gap: 18px;
+  row-gap: 16px;
+  grid-template-columns: 87.5% 7.14%;
+  grid-template-areas:
+  "name button"
+  "description description";
+  align-items: baseline;
+}
+
+
+@media screen and (max-width: 955px) {
+  .profile__information {
+    grid-template-columns: 64.96% 0.96%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .profile__information {
+    display: flex;
+    margin: 26px auto 0;
+    width: 282px;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    align-items: center;
+  }
+}

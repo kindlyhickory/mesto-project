@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./pages/index.css">
+    <title>Mesto</title>
+</head>
+<body class="page">
+    <section class="popup popup_opened">
+      <div class="popup__container">
+        <h3 class="popup__heading">
+          Редактировать профиль
+        </h3>
+        <fieldset class="popup__close">
+          <button class="popup__close-button button"></button>
+        </fieldset>
+        <fieldset class="popup__person-data">
+          <textarea type="text" class="popup__item popup__name" value="Жак-Ив Кусто">Жак-Ив Кусто</textarea>
+          <textarea type="text" class="popup__item popup__famed" value="Исследователь океана">Исследователь океана</textarea>
+        </fieldset>
+        <fieldset class="popup__handlers">
+          <button type="submit" class="popup__save button">Сохранить</button>
+        </fieldset>
+      </div>
+    </section>
+    <header class="header">
+      <img src="./images/header__logo.png" alt="Логотип Место" class="header__logo">
+      <div class="header__line line"></div>
+    </header>
+    <main class="content">
+      <section class="profile">
+        <img src="./images/iv_kusto.jpg" alt="Жак-Ив Кусто" class="profile__image">
+        <div class="profile__information">
+          <p class="profile__name">Жак-Ив Кусто</p>
+          <fieldset class="profile__edit">
+            <button class="profile__edit-button button" type="submit"></button>
+          </fieldset>
+          <p class="profile__description">Исследователь океана</p>
+        </div>
+        <fieldset class="profile__add">
+          <button class="profile__add-button button" type="submit"></button>
+        </fieldset>
+      </section>
+      <section class="cards">
+        <article class="cards__item">
+          <img src="./images/elbrus.jpg" alt="Эльбрус" class="cards__image">
+          <div class="cards__caption">
+            <p class="cards__title">Гора-Эльбрус</p>
+            <button class="cards__like-button"></button>
+          </div>
+        </article>
+        <article class="cards__item">
+          <img src="./images/dombai.jpg" alt="Домбай" class="cards__image">
+          <div class="cards__caption">
+            <p class="cards__title">Домбай</p>
+            <button class="cards__like-button cards__like-button_activated"></button>
+          </div>
+        </article>
+        <article class="cards__item">
+          <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="cards__image">
+          <div class="cards__caption">
+            <p class="cards__title">Карачаевск</p>
+            <button class="cards__like-button"></button>
+          </div>
+        </article>
+        <article class="cards__item">
+          <img src="./images/dombai.jpg" alt="Домбай" class="cards__image">
+          <div class="cards__caption">
+            <p class="cards__title">Домбай</p>
+            <button class="cards__like-button"></button>
+          </div>
+        </article>
+        <article class="cards__item">
+          <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="cards__image">
+          <div class="cards__caption">
+            <p class="cards__title">Карачево-Черкесия</p>
+            <button class="cards__like-button"></button>
+          </div>
+        </article>
+        <article class="cards__item">
+          <img src="./images/elbrus.jpg" alt="Эльбрус" class="cards__image">
+          <div class="cards__caption">
+            <p class="cards__title">Гора-Эльбрус</p>
+            <button class="cards__like-button"></button>
+          </div>
+        </article>
+      </section>
+    </main>
+    <footer class="footer">
+      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+    </footer>
+</body>
+</html>

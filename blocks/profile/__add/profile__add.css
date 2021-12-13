@@ -1,0 +1,22 @@
+.profile__add {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  width: 150px;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+@media screen and (max-width:768px) {
+  .profile__add {
+    all: initial;
+    padding: 0;
+    border: none;
+    margin: 36px auto 0;
+    max-width: 282px;
+    width: calc(100% - 38px);
+    height: 50px;
+}
+}
