@@ -5,7 +5,7 @@
   width: 22px;
   height: 19px;
   background-color: #fff;
-  background-image: url("../../../images/like_button.png");
+  background-image: url("../../../images/like_button.svg");
   cursor: pointer;
   transition: opacity .2s linear;
 }
