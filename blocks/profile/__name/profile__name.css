@@ -9,14 +9,10 @@
   color: #fff;
   grid-column: 1 / 2;
   grid-area: name;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
-
-@media screen and (max-width: 955px) {
-  .profile__name {
-    font-size: 32px;
-  }
-}
-
 
 @media screen and (max-width: 768px) {
   .profile__name {

@@ -10,3 +10,17 @@
   justify-content: center;
   font-size: 0;
 }
+
+@media screen and (max-width: 955px) {
+  .cards {
+    max-width: calc(100% - 38px);
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .cards {
+    padding: 36px 0 0;
+  }
+
+}
