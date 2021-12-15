@@ -13,12 +13,11 @@
 
 @media screen and (max-width: 768px) {
   .profile__information {
-    display: flex;
+    width: 88.13%;
     margin: 26px auto 0;
-    width: 282px;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-    align-items: center;
+    max-width: 282px;
+    column-gap: 10px;
+    row-gap: 8px;
+    grid-template-columns: 83.33% 13.13%;
   }
 }
