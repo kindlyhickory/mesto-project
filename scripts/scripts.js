@@ -48,9 +48,9 @@ function createCard(name, link){
   cardElement.querySelector('.cards__delete-button').addEventListener('click', () => deleteCard(cardElement));
   cardElement.querySelector('.cards__image').addEventListener('click', () => {
     setImagePopup(cardElement);
-    openPopup(imagePopup, "image");
+    openPopup(imagePopup);
   });
-  cardImage.setAttribute("src", link);
+  cardImage.setAttribute(src", link);
   cardImage.setAttribute("alt", name);
   cardTitle.textContent = name;
   return cardElement;
@@ -103,7 +103,7 @@ function handleSubmit(e) {
   e.preventDefault();
   profileName.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
-  closePopup(editPopup, "edit");
+  closePopup(editPopup);
 }
 
 
@@ -112,7 +112,7 @@ function handleSubmitAdding(e){
   e.preventDefault();
   addCard(cardsContainer,createCard(placeInput.value, urlInput.value));
   e.target.reset();
-  closePopup(addPopup, "add");
+  closePopup(addPopup);
 }
 
 
@@ -124,9 +124,9 @@ function toggleLike(e) {
 // Listeners
 editButton.addEventListener('click', () => {
   setEditPopup();
-  openPopup(editPopup, "edit");
+  openPopup(editPopup);
 });
-addButton.addEventListener('click', () => openPopup(addPopup, "add"));
+addButton.addEventListener('click', () => openPopup(addPopup));
 popupEditFormElement.addEventListener('submit', handleSubmit);
 popupAddFormElement.addEventListener('submit', handleSubmitAdding);
 
