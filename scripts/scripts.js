@@ -50,7 +50,7 @@ function createCard(name, link){
     setImagePopup(cardElement);
     openPopup(imagePopup);
   });
-  cardImage.setAttribute(src", link);
+  cardImage.setAttribute("src", link);
   cardImage.setAttribute("alt", name);
   cardTitle.textContent = name;
   return cardElement;
