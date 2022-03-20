@@ -8,6 +8,7 @@
 - HTML
 - CSS
 - JavaScript, ES6
+- Сборка проекта: Webpack
 
 ### Имеющиеся возможности:
 

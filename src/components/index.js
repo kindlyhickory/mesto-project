@@ -1,13 +1,13 @@
-import './pages/index.css';
-import { initialCards } from './scripts/constants.js';
+import '../pages/index.css';
+import { initialCards } from './constants.js';
 import {
   editPopup, editButton, popupEditFormElement, addButton, addPopup, popupAddFormElement,
   openPopup, setEditPopup, handleSubmit, handleSubmitAdding,
-} from './scripts/modal.js';
+} from './modal.js';
 
 
-import { docReady } from './scripts/utils.js';
-import { enableValidation } from './scripts/validate.js';
+import { docReady } from './utils.js';
+import { enableValidation } from './validate.js';
 
 // Elements
 
@@ -29,7 +29,7 @@ enableValidation({
   formSelector: '.popup__data',
   inputSelector: '.popup__item',
   submitButtonSelector: '.popup__save',
-  disabledButtonClass: '.popup__save_type_inactive',
+  disabledButtonClass: 'popup__save_type_inactive',
   inputInvalidClass: '.popup__item_type_active',
   errorActiveClass: '.form__input-error_active',
   errorClass: 'popup__input-error',

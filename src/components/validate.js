@@ -5,7 +5,6 @@ function enableValidation({ formSelector,
   inputInvalidClass,
   errorActiveClass,
   errorClass }) {
-  console.log(formSelector);
   const formList = Array.from(document.querySelectorAll(`${formSelector}`));
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (e) => {
@@ -22,7 +21,7 @@ function setEventListeners(formElement, inputSelector, submitButtonSelector, dis
   errorClass) {
   const inputList = Array.from(formElement.querySelectorAll(`${inputSelector}`));
   const submitButton = formElement.querySelector(`${submitButtonSelector}`);
-  toggleButtonState(inputList, submitButton,);
+  toggleButtonState(inputList, submitButton, disabledButtonClass);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement, errorActiveClass, errorClass, inputInvalidClass);
