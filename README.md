@@ -16,8 +16,7 @@
 - Ставить лайки к карточкам
 - Редактировать профиль
 
-## [Ссылка на сайт на github pages](https://kindlyhickory.github.io/mesto-project/)
 
 ## Запуск:
-npm i
+npm i  
 npm run build
