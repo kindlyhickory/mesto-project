@@ -1,0 +1,8 @@
+.popup__data-field {
+  margin: 0 0 30px 0;
+  position: relative;
+}
+
+.popup__data-field:last-of-type {
+  margin: 0;
+}
