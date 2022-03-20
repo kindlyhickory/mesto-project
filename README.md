@@ -8,6 +8,7 @@
 - HTML
 - CSS
 - JavaScript, ES6
+- Сборка проекта: Webpack
 
 ### Имеющиеся возможности:
 
@@ -16,3 +17,7 @@
 - Редактировать профиль
 
 ## [Ссылка на сайт на github pages](https://kindlyhickory.github.io/mesto-project/)
+
+## Запуск:
+npm i
+npm run build
