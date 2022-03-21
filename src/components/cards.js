@@ -16,7 +16,7 @@ function createCard(name, link) {
   cardElement.querySelector('.cards__like-button').addEventListener('click', toggleLike);
   cardElement.querySelector('.cards__delete-button').addEventListener('click', () => deleteCard(cardElement));
   cardElement.querySelector('.cards__image').addEventListener('click', () => {
-    setImagePopup(cardElement);
+    setImagePopup(cardImage.src, cardTitle.textContent);
     openPopup(imagePopup);
   });
   cardImage.setAttribute("src", link);
@@ -38,12 +38,10 @@ function deleteCard(card) {
 }
 
 // card image show
-function setImagePopup(card) {
-  const cardImage = card.querySelector('.cards__image');
-  const popupImageTitle = card.querySelector(".cards__title");
-  imageSpace.setAttribute("src", cardImage.src);
-  imageSpace.setAttribute("alt", popupImageTitle.textContent);
-  imageTitle.textContent = popupImageTitle.textContent;
+function setImagePopup(cardImage, popupImageTitle) {
+  imageSpace.setAttribute("src", cardImage);
+  imageSpace.setAttribute("alt", popupImageTitle);
+  imageTitle.textContent = popupImageTitle;
 }
 
 
