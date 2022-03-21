@@ -66,4 +66,4 @@ function toggleButtonState(inputList, buttonElement, disabledButtonClass) {
   }
 }
 
-export { enableValidation }
+export { enableValidation, toggleButtonState }

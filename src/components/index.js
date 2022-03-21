@@ -2,16 +2,42 @@ import '../pages/index.css';
 import { initialCards } from './constants.js';
 import {
   editPopup, editButton, popupEditFormElement, addButton, addPopup, popupAddFormElement,
-  openPopup, setEditPopup, handleSubmit, handleSubmitAdding,
+  openPopup, closePopup
 } from './modal.js';
 
+import { nameInput, jobInput, profileName, profileDescription, placeInput, urlInput } from './constants.js';
 
-import { docReady } from './utils.js';
+import { addCard, cardsContainer, createCard } from './cards.js';
 import { enableValidation } from './validate.js';
 
-// Elements
+// Set edit popup
+export function setEditPopup() {
+  nameInput.setAttribute("value", profileName.textContent);
+  jobInput.setAttribute("value", profileDescription.textContent);
+}
+
+//Edit form -> changing profile
+export function handleSubmit(e) {
+  e.preventDefault();
+  profileName.textContent = nameInput.value;
+  profileDescription.textContent = jobInput.value;
+  closePopup(editPopup);
+}
 
 
+// handle add form submit
+export function handleSubmitAdding(e) {
+  e.preventDefault();
+  addCard(cardsContainer, createCard(placeInput.value, urlInput.value));
+  e.target.reset();
+  closePopup(addPopup);
+}
+
+function formingDoc(cards) {
+  cards.forEach(card => {
+    addCard(cardsContainer, createCard(card.name, card.link));
+  })
+}
 
 // Listeners
 editButton.addEventListener('click', () => {
@@ -22,8 +48,12 @@ addButton.addEventListener('click', () => openPopup(addPopup));
 popupEditFormElement.addEventListener('submit', handleSubmit);
 popupAddFormElement.addEventListener('submit', handleSubmitAdding);
 
+
+
+
+
 //Document loaded
-document.addEventListener("DOMContentLoaded", () => docReady(initialCards));
+document.addEventListener("DOMContentLoaded", () => formingDoc(initialCards));
 
 enableValidation({
   formSelector: '.popup__data',
