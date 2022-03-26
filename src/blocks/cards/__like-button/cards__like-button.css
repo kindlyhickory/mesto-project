@@ -1,11 +1,12 @@
 .cards__like-button {
-  margin-right: 30px;
   padding: 0;
   border: none;
   width: 22px;
   height: 19px;
   background-color: #fff;
   background-image: url("../../../images/like_button.svg");
+  background-position: top;
+  background-repeat: no-repeat;
   cursor: pointer;
   transition: opacity .2s linear;
 }

@@ -25,6 +25,7 @@ export const initialCards = [
   }
 ];
 
+
 // edit popup elements
 export const editPopup = document.querySelector(".popup_edit");
 export const editButton = document.querySelector(".profile__edit-button");
@@ -45,8 +46,15 @@ export const imageSpace = imagePopup.querySelector('.popup__image');
 export const imageTitle = imagePopup.querySelector('.popup__image-title');
 
 //profile elements
+export const profileAvatar = document.querySelector('.profile__image');
 export const profileName = document.querySelector('.profile__name');
 export const profileDescription = document.querySelector('.profile__description');
 export const submitButtonSelector = '.popup__save';
 export const disabledButtonClass = 'popup__save_type_inactive';
 export const inputSelector = '.popup__item';
+
+//avatar popup els
+export const editAvatarButton = document.querySelector('.profile__image-container');
+export const avatarPopup = document.querySelector('.popup_avatar-change')
+export const popupAvatarFormELement = avatarPopup.querySelector('.popup__data');
+export const avatarInputElement = avatarPopup.querySelector('.popup__avatar');

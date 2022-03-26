@@ -1,8 +1,10 @@
 import {
   editPopup, editButton, popupEditFormElement, nameInput, jobInput, addButton, addPopup, popupAddFormElement, placeInput, urlInput,
-  imagePopup, imageSpace, imageTitle, profileName, profileDescription, disabledButtonClass, submitButtonSelector, inputSelector
+  imagePopup, imageSpace, imageTitle, profileName, profileDescription, disabledButtonClass, submitButtonSelector, inputSelector, deleteButtonPopup
 } from "./constants.js";
 import { toggleButtonState } from "./validate.js";
+
+
 function handleEscape(evt) {
   if (evt.key === "Escape") {
     const openedPopup = document.querySelector('.popup_opened');

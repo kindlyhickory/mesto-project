@@ -1,0 +1,34 @@
+.profile__image-container {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  transition: all .2s linear;
+  position: relative;
+  cursor: pointer;
+}
+
+.profile__image-container:hover {
+  background-color: rgba(0,0,0, .4);
+}
+
+.profile__image-container::before {
+  transition: all .2s linear;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url("../../../images/edit_button.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 26px 26px;
+  visibility: hidden;
+}
+
+.profile__image-container:hover::before {
+
+  visibility: visible;
+}
+
+
