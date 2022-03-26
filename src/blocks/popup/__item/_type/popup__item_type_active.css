@@ -1,7 +1,0 @@
-.popup__item_type_active {
-  border-bottom: 1px solid #FF0000;
-}
-
-.popup__item_type_active:focus {
-  border-bottom: 2px solid #FF0000;
-}
