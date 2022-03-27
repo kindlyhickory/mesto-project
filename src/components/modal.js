@@ -11,12 +11,6 @@ function handleEscape(evt) {
   }
 }
 
-function handleClickOutside(evt) {
-  if (evt.target.classList.contains('popup_opened')) {
-    closePopup(evt.target);
-  }
-}
-
 // POPUP
 //popup open
 function openPopup(popup) {
