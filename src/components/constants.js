@@ -25,6 +25,7 @@ export const initialCards = [
   }
 ];
 
+export const popups = document.querySelectorAll(".popup");
 
 // edit popup elements
 export const editPopup = document.querySelector(".popup_edit");
