@@ -7,16 +7,17 @@ const cardsContainer = document.querySelector('.cards');
 
 // card like
 function toggleLike(e, cardID, likeCountEl) {
-  e.target.classList.toggle("cards__like-button_activated");
-  if (!e.target.classList.contains("cards__like-button_activated")) {
+  if (e.target.classList.contains("cards__like-button_activated")) {
     deleteLike(cardID)
       .then(result => {
+        e.target.classList.toggle("cards__like-button_activated");
         updateLikeCounter(likeCountEl, result.likes.length);
       })
       .catch(error => console.log(error));
   } else {
     setLike(cardID)
       .then(result => {
+        e.target.classList.toggle("cards__like-button_activated");
         updateLikeCounter(likeCountEl, result.likes.length);
       })
       .catch(error => console.log(error));
@@ -47,7 +48,7 @@ function createCard(name, link, likeCount, cardID, likesList, ownerID, userID) {
   } else {
     deleteButton.addEventListener("click", () => {
       deleteCard(cardID)
-        .then(cardElement.remove())
+        .then(() => cardElement.remove())
         .catch(error => console.log(error));
     })
   }
@@ -67,13 +68,6 @@ function createCard(name, link, likeCount, cardID, likesList, ownerID, userID) {
 function addCard(container, cardElement) {
   container.prepend(cardElement);
 }
-
-// cards deleting
-// function deleteCard(card) {
-//   card.removeEventListener('click', toggleLike);
-//   card.removeEventListener('click', () => deleteCard(card))
-//   card.remove();
-// }
 
 // card image show
 function setImagePopup(cardImage, popupImageTitle) {

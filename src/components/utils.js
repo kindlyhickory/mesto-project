@@ -1,12 +1,8 @@
-export function renderLoading(event, isLoading, popup) {
+export function renderLoading(event, isLoading, popup, buttonText = "Сохранить") {
   const sendButton = event.target.querySelector('.popup__save');
   if (isLoading) {
-    sendButton.textContent = 'Сохранение'
+    sendButton.textContent = 'Сохранение...'
   } else {
-    if (popup.classList.contains("popup_avatar-change") || popup.classList.contains("popup_edit")) {
-      sendButton.textContent = "Сохранить";
-    } else if (popup.classList.contains("popup_add")) {
-      sendButton.textContent = "Создать";
-    }
+    sendButton.textContent = buttonText;
   }
 }
