@@ -54,8 +54,14 @@ export const submitButtonSelector = '.popup__save';
 export const disabledButtonClass = 'popup__save_type_inactive';
 export const inputSelector = '.popup__item';
 
+
+export const inputListAddPopup = Array.from(addPopup.querySelectorAll(`${inputSelector}`));
+export const submitButtonAddPopup = addPopup.querySelector(`${submitButtonSelector}`);
+
+
 //avatar popup els
 export const editAvatarButton = document.querySelector('.profile__image-container');
 export const avatarPopup = document.querySelector('.popup_avatar-change')
 export const popupAvatarFormELement = avatarPopup.querySelector('.popup__data');
 export const avatarInputElement = avatarPopup.querySelector('.popup__avatar');
+export const avatarSaveButton = avatarPopup.querySelector('.popup__save');
