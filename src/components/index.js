@@ -1,11 +1,13 @@
 import '../pages/index.css';
-import { editAvatarButton, initialCards, avatarPopup, popupAvatarFormELement, avatarInputElement } from './constants.js';
+import { editAvatarButton, initialCards, avatarPopup, popupAvatarFormELement, avatarInputElement, avatarSaveButton } from './constants.js';
 import {
   editPopup, editButton, popupEditFormElement, addButton, addPopup, popupAddFormElement,
   openPopup, closePopup
 } from './modal.js';
 
-import { nameInput, jobInput, profileName, profileDescription, profileAvatar, placeInput, urlInput, popups, inputSelector, submitButtonSelector, disabledButtonClass } from './constants.js';
+import {
+  nameInput, jobInput, profileName, profileDescription, profileAvatar, placeInput, urlInput, popups, disabledButtonClass, inputListAddPopup, submitButtonAddPopup
+} from './constants.js';
 
 import { addCard, cardsContainer, createCard } from './cards.js';
 
@@ -98,11 +100,10 @@ editButton.addEventListener('click', () => {
   setEditPopup();
   openPopup(editPopup);
 });
+
 addButton.addEventListener('click', () => {
   openPopup(addPopup);
-  const inputList = Array.from(addPopup.querySelectorAll(`${inputSelector}`));
-  const submitButton = addPopup.querySelector(`${submitButtonSelector}`);
-  toggleButtonState(inputList, submitButton, disabledButtonClass);
+  toggleButtonState(inputListAddPopup, submitButtonAddPopup, disabledButtonClass);
 });
 popupEditFormElement.addEventListener('submit', (e) => {
   renderLoading(e, true, editPopup);
@@ -116,7 +117,11 @@ popupAvatarFormELement.addEventListener('submit', (e) => {
   renderLoading(e, true, avatarPopup);
   handleSubmitAvatar(e);
 });
-editAvatarButton.addEventListener('click', () => openPopup(avatarPopup));
+editAvatarButton.addEventListener('click', () => {
+  openPopup(avatarPopup);
+  toggleButtonState([avatarInputElement], avatarSaveButton, disabledButtonClass);
+}
+);
 
 
 
