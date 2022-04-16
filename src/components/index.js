@@ -1,24 +1,30 @@
 import '../pages/index.css';
-import { editAvatarButton, initialCards, avatarPopup, popupAvatarFormELement, avatarInputElement, avatarSaveButton } from './constants.js';
+import { editAvatarButton, initialCards, avatarPopup, popupAvatarFormELement, avatarInputElement, avatarSaveButton, forms, processedForms, formSelectors } from './constants.js';
 import {
   editPopup, editButton, popupEditFormElement, addButton, addPopup, popupAddFormElement,
   openPopup, closePopup
 } from './modal.js';
 
 import {
-  nameInput, jobInput, profileName, profileDescription, profileAvatar, placeInput, urlInput, popups, disabledButtonClass, inputListAddPopup, submitButtonAddPopup
+  nameInput, jobInput, profileName, profileDescription, profileAvatar, placeInput, urlInput, popups, disabledButtonClass, inputListAddPopup, submitButtonAddPopup, config
 } from './constants.js';
 
-import { addCard, cardsContainer, createCard } from './cards.js';
 
-import { sendNewCardToServer, getCards, getUserData, changeUserData, changeAvatar } from './api.js';
-import { enableValidation, toggleButtonState } from './validate.js';
+
+import { addCard, cardsContainer, Card, cardTemplate } from './cards.js';
+
+import Api from './api.js';
+
+// import { enableValidation, toggleButtonState } from './validate.js';
 
 import { setAvatar, setDOMUserData } from './profile.js';
 import { renderLoading } from './utils';
+import { FormValidator } from './validate';
 
 export let userId
 
+
+export const api = new Api(config);
 
 // Set edit popup
 export function setEditPopup() {
@@ -29,7 +35,7 @@ export function setEditPopup() {
 //Edit form -> changing profile
 export function handleSubmit(e) {
   e.preventDefault();
-  changeUserData(nameInput.value, jobInput.value)
+  api.changeUserData(nameInput.value, jobInput.value)
     .then((profile) => {
       setDOMUserData(profile.name, profile.about, profile.avatar, profileName, profileDescription, profileAvatar)
       closePopup(editPopup);
@@ -44,9 +50,9 @@ export function handleSubmit(e) {
 // handle add form submit
 export function handleSubmitAdding(e) {
   e.preventDefault();
-  sendNewCardToServer(placeInput.value, urlInput.value)
+  api.sendNewCardToServer(placeInput.value, urlInput.value)
     .then(card => {
-      addCard(cardsContainer, createCard(card.name, card.link, card.likes.length, card._id, card.likes, card.owner._id, userId));
+      addCard(cardsContainer, new Card(card, userId, cardTemplate).generate());
       closePopup(addPopup);
       e.target.reset();
     })
@@ -59,7 +65,7 @@ export function handleSubmitAdding(e) {
 
 export function handleSubmitAvatar(e) {
   e.preventDefault();
-  changeAvatar(avatarInputElement.value)
+  api.changeAvatar(avatarInputElement.value)
     .then(user => {
       setAvatar(profileAvatar, user.avatar, user.name);
       closePopup(avatarPopup);
@@ -73,12 +79,12 @@ export function handleSubmitAvatar(e) {
 }
 
 function formingDoc() {
-  Promise.all([getUserData(), getCards()])
+  Promise.all([api.getUserData(), api.getCards()])
     .then(([profile, cards]) => {
       userId = profile._id;
       setDOMUserData(profile.name, profile.about, profile.avatar, profileName, profileDescription, profileAvatar, profile._id)
       cards.forEach(card => {
-        addCard(cardsContainer, createCard(card.name, card.link, card.likes.length, card._id, card.likes, card.owner._id, userId));
+        addCard(cardsContainer, new Card(card, userId, cardTemplate).generate());
       })
     })
     .catch(error => console.log(error));
@@ -103,7 +109,7 @@ editButton.addEventListener('click', () => {
 
 addButton.addEventListener('click', () => {
   openPopup(addPopup);
-  toggleButtonState(inputListAddPopup, submitButtonAddPopup, disabledButtonClass);
+  processedForms[avatarPopup.querySelector(formSelectors.formSelector).name].toggleButtonState();
 });
 popupEditFormElement.addEventListener('submit', (e) => {
   renderLoading(e, true, editPopup);
@@ -119,7 +125,7 @@ popupAvatarFormELement.addEventListener('submit', (e) => {
 });
 editAvatarButton.addEventListener('click', () => {
   openPopup(avatarPopup);
-  toggleButtonState([avatarInputElement], avatarSaveButton, disabledButtonClass);
+  processedForms[avatarPopup.querySelector(formSelectors.formSelector).name].toggleButtonState();
 }
 );
 
@@ -130,12 +136,18 @@ editAvatarButton.addEventListener('click', () => {
 //Document loaded
 document.addEventListener("DOMContentLoaded", () => formingDoc(initialCards));
 
-enableValidation({
-  formSelector: '.popup__data',
-  inputSelector: '.popup__item',
-  submitButtonSelector: '.popup__save',
-  disabledButtonClass: 'popup__save_type_inactive',
-  inputInvalidClass: '.popup__item_type_active',
-  errorActiveClass: '.form__input-error_active',
-  errorClass: 'popup__input-error',
-});
+forms.forEach(form => {
+  const validatedForm = new FormValidator(formSelectors, form);
+  validatedForm.enableValidation();
+  processedForms[form.name] = validatedForm;
+})
+
+// enableValidation({
+//   formSelector: '.popup__data',
+//   inputSelector: '.popup__item',
+//   submitButtonSelector: '.popup__save',
+//   disabledButtonClass: 'popup__save_type_inactive',
+//   inputInvalidClass: '.popup__item_type_active',
+//   errorActiveClass: '.form__input-error_active',
+//   errorClass: 'popup__input-error',
+// });
