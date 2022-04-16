@@ -25,6 +25,27 @@ export const initialCards = [
   }
 ];
 
+export const config = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-8',
+  headers: {
+    authorization: 'c89b1818-4cda-41d9-880f-b53f0e3aae65',
+    'Content-type': 'application/json'
+  }
+}
+
+export const forms = Array.from(document.forms);
+export const processedForms = {}
+export const formSelectors = {
+  formSelector: '.popup__data',
+  inputSelector: '.popup__item',
+  submitButtonSelector: '.popup__save',
+  disabledButtonClass: 'popup__save_type_inactive',
+  inputInvalidClass: '.popup__item_type_active',
+  errorActiveClass: '.form__input-error_active',
+  errorClass: 'popup__input-error',
+}
+
+
 export const popups = document.querySelectorAll(".popup");
 
 // edit popup elements
