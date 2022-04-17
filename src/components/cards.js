@@ -1,7 +1,8 @@
 import { imageSpace, imageTitle, openPopup, imagePopup, closePopup } from "./modal.js";
 import { deletePopup, deleteButtonPopup } from "./constants.js";
 
-import { api } from "./index.js";
+import { api, popupWithImage } from "./index.js";
+
 
 const cardTemplate = '.card-template';
 const cardsContainer = document.querySelector('.cards');
@@ -48,8 +49,8 @@ export class Card {
     this._likeCountEl.textContent = this._card.likes.length;
     this._likeButton.addEventListener('click', (evt) => this._toggleLike(evt, this._card._id, this._likeCountEl));
     this._element.querySelector('.cards__image').addEventListener('click', () => {
-      setImagePopup(this._cardImage.src, this._cardTitle.textContent);
-      openPopup(imagePopup);
+      popupWithImage.open(this._cardImage.src, this._cardTitle.textContent);
+      // openPopup(imagePopup);
     });
     this._cardImage.setAttribute("src", this._card.link);
     this._cardImage.setAttribute("alt", this._card.name);
@@ -83,15 +84,15 @@ export class Card {
 }
 
 // cards_adding
-function addCard(container, cardElement) {
-  container.prepend(cardElement);
-}
+// function addCard(container, cardElement) {
+//   container.prepend(cardElement);
+// }
 
 // card image show
-function setImagePopup(cardImage, popupImageTitle) {
-  imageSpace.setAttribute("src", cardImage);
-  imageSpace.setAttribute("alt", popupImageTitle);
-  imageTitle.textContent = popupImageTitle;
-}
+// function setImagePopup(cardImage, popupImageTitle) {
+//   imageSpace.setAttribute("src", cardImage);
+//   imageSpace.setAttribute("alt", popupImageTitle);
+//   imageTitle.textContent = popupImageTitle;
+// }
 
-export { cardTemplate, cardsContainer, addCard, setImagePopup }
+export { cardTemplate, cardsContainer }

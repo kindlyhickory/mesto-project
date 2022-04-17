@@ -1,8 +1,7 @@
 import '../pages/index.css';
 import { editAvatarButton, initialCards, avatarPopup, popupAvatarFormELement, avatarInputElement, avatarSaveButton, forms, processedForms, formSelectors } from './constants.js';
 import {
-  editPopup, editButton, popupEditFormElement, addButton, addPopup, popupAddFormElement,
-  openPopup, closePopup
+  editPopup, editButton, popupEditFormElement, addButton, addPopup, popupAddFormElement
 } from './modal.js';
 
 import {
@@ -14,6 +13,9 @@ import {
 import { addCard, cardsContainer, Card, cardTemplate } from './cards.js';
 
 import Api from './api.js';
+import Section from "./Section.js";
+import PopupWithImage from "./PopupWithImage.js";
+import PopupWithForm from './PopupWithForm.js';
 
 // import { enableValidation, toggleButtonState } from './validate.js';
 
@@ -25,6 +27,30 @@ export let userId
 
 
 export const api = new Api(config);
+export const popupWithImage = new PopupWithImage(".popup_image");
+const editPopupForm = new PopupWithForm({
+  selector: ".popup_edit",
+  submitCalback: ({ name, famed_by}) => {
+    api
+      .changeUserData(name, famed_by)
+      .then((profile) => {
+        setDOMUserData(
+          profile.name,
+          profile.about,
+          profile.avatar,
+          profileName,
+          profileDescription,
+          profileAvatar
+        );
+        editPopupForm.close();
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        renderLoading(false, editPopupForm._popup, "Сохранить");
+      });
+  },
+});
+editPopupForm.setEventListeners();
 
 // Set edit popup
 export function setEditPopup() {
@@ -33,18 +59,18 @@ export function setEditPopup() {
 }
 
 //Edit form -> changing profile
-export function handleSubmit(e) {
-  e.preventDefault();
-  api.changeUserData(nameInput.value, jobInput.value)
-    .then((profile) => {
-      setDOMUserData(profile.name, profile.about, profile.avatar, profileName, profileDescription, profileAvatar)
-      closePopup(editPopup);
-    })
-    .catch(error => console.log(error))
-    .finally(() => {
-      renderLoading(e, false, editPopup, "Сохранить")
-    });
-}
+// export function handleSubmit(e) {
+//   e.preventDefault();
+//   api.changeUserData(nameInput.value, jobInput.value)
+//     .then((profile) => {
+//       setDOMUserData(profile.name, profile.about, profile.avatar, profileName, profileDescription, profileAvatar)
+//       closePopup(editPopup);
+//     })
+//     .catch(error => console.log(error))
+//     .finally(() => {
+//       renderLoading(e, false, editPopup, "Сохранить")
+//     });
+// }
 
 
 // handle add form submit
@@ -52,7 +78,18 @@ export function handleSubmitAdding(e) {
   e.preventDefault();
   api.sendNewCardToServer(placeInput.value, urlInput.value)
     .then(card => {
-      addCard(cardsContainer, new Card(card, userId, cardTemplate).generate());
+      const cardList = new Section(
+        {
+          items: [card],
+          renderer: (el) => {
+            const card = new Card(el, userId, cardTemplate).generate();
+            cardList.addItem(card);
+          },
+        },
+        ".cards"
+      );
+      cardList.renderItems();
+      // addCard(cardsContainer, new Card(card, userId, cardTemplate).generate());
       closePopup(addPopup);
       e.target.reset();
     })
@@ -83,9 +120,21 @@ function formingDoc() {
     .then(([profile, cards]) => {
       userId = profile._id;
       setDOMUserData(profile.name, profile.about, profile.avatar, profileName, profileDescription, profileAvatar, profile._id)
-      cards.forEach(card => {
-        addCard(cardsContainer, new Card(card, userId, cardTemplate).generate());
-      })
+      const cardList = new Section(
+        {
+          items: cards,
+          renderer: (el) => {
+            const card = new Card(el, userId, cardTemplate).generate();
+            cardList.addItem(card);
+          },
+        },
+        ".cards"
+      );
+      cardList.renderItems();
+
+      // cards.forEach(card => {
+      //   addCard(cardsContainer, new Card(card, userId, cardTemplate).generate());
+      // })
     })
     .catch(error => console.log(error));
 }
@@ -104,17 +153,17 @@ popups.forEach(popup => {
 
 editButton.addEventListener('click', () => {
   setEditPopup();
-  openPopup(editPopup);
+  editPopupForm.open();
 });
 
 addButton.addEventListener('click', () => {
   openPopup(addPopup);
   processedForms[avatarPopup.querySelector(formSelectors.formSelector).name].toggleButtonState();
 });
-popupEditFormElement.addEventListener('submit', (e) => {
-  renderLoading(e, true, editPopup);
-  handleSubmit(e);
-});
+// popupEditFormElement.addEventListener('submit', (e) => {
+//   renderLoading(e, true, editPopup);
+//   handleSubmit(e);
+// });
 popupAddFormElement.addEventListener('submit', (e) => {
   renderLoading(e, true, addPopup)
   handleSubmitAdding(e)
