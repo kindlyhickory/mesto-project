@@ -9,7 +9,7 @@ export default class Api {
     if (res.ok) {
       return res.json()
     }
-    return Promise.reject(`Ошибка запроса: ${res.status}. Запрос: ${res.url}`)
+    return Promise.reject(`Ошибка запроса: ${res.status}. Запрос: ${res.url}.`)
   }
 
   setLike(cardID) {

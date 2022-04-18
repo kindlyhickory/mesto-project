@@ -16,6 +16,7 @@ import Api from './api.js';
 import Section from "./Section.js";
 import PopupWithImage from "./PopupWithImage.js";
 import PopupWithForm from './PopupWithForm.js';
+import UserInfo from './UserInfo.js';
 
 // import { enableValidation, toggleButtonState } from './validate.js';
 
@@ -23,26 +24,26 @@ import { setAvatar, setDOMUserData } from './profile.js';
 import { renderLoading } from './utils';
 import { FormValidator } from './validate';
 
+
+
 export let userId
 
 
 export const api = new Api(config);
 export const popupWithImage = new PopupWithImage(".popup_image");
+
+const userInfo = new UserInfo({nameSelector: '.profile__name', aboutSelector: '.profile__description'})
+
+
 const editPopupForm = new PopupWithForm({
   selector: ".popup_edit",
-  submitCalback: ({ name, famed_by}) => {
-    api
-      .changeUserData(name, famed_by)
-      .then((profile) => {
-        setDOMUserData(
-          profile.name,
-          profile.about,
-          profile.avatar,
-          profileName,
-          profileDescription,
-          profileAvatar
-        );
+  submitCalback: (user) => {
+    renderLoading(true, editPopupForm._popup)
+    userInfo.setUserInfo(user, api.changeUserData.bind(api))
+      .then((user) => {
         editPopupForm.close();
+        editPopupForm._form.elements.name.value = user.name;
+        editPopupForm._form.elements.famed_by.value = user.about;
       })
       .catch((error) => console.log(error))
       .finally(() => {
@@ -50,12 +51,64 @@ const editPopupForm = new PopupWithForm({
       });
   },
 });
+
 editPopupForm.setEventListeners();
+
+const avatarPopupForm = new PopupWithForm({
+  selector: ".popup_avatar-change",
+  submitCalback: ({avatar}) => {
+    renderLoading(true, avatarPopupForm._popup)
+    api.changeAvatar(avatar)
+      .then(user => {
+        setAvatar(profileAvatar, user.avatar, user.name);
+        avatarPopupForm.close();
+      })
+      .catch(error => console.log(error))
+      .finally(() => {
+        renderLoading(false, avatarPopupForm._popup, "Сохранить");
+      });
+  },
+});
+
+avatarPopupForm.setEventListeners();
+
+const addPopupForm = new PopupWithForm({
+  selector: ".popup_add",
+  submitCalback: ({title, picture}) => {
+    renderLoading(true, addPopupForm._popup);
+    api.sendNewCardToServer(title, picture)
+    .then(card => {
+      const cardList = new Section(
+        {
+          items: [card],
+          renderer: (el) => {
+            const card = new Card(el, userId, cardTemplate).generate();
+            cardList.addItem(card);
+          },
+        },
+        ".cards"
+      );
+      cardList.renderItems();
+      addPopupForm.close();
+    })
+    .catch(error => console.log(error))
+    .finally(() => {
+      renderLoading( false, addPopupForm._popup, "Создать");
+    });
+  },
+});
+
+addPopupForm.setEventListeners();
 
 // Set edit popup
 export function setEditPopup() {
-  nameInput.setAttribute("value", profileName.textContent);
-  jobInput.setAttribute("value", profileDescription.textContent);
+  return userInfo.getUserInfo(api.getUserData.bind(api))
+    .then(user => {
+      nameInput.setAttribute("value", user.name);
+      jobInput.setAttribute("value", user.about);
+      return Promise.resolve();
+    })
+    .catch(error => console.log(error));
 }
 
 //Edit form -> changing profile
@@ -74,31 +127,31 @@ export function setEditPopup() {
 
 
 // handle add form submit
-export function handleSubmitAdding(e) {
-  e.preventDefault();
-  api.sendNewCardToServer(placeInput.value, urlInput.value)
-    .then(card => {
-      const cardList = new Section(
-        {
-          items: [card],
-          renderer: (el) => {
-            const card = new Card(el, userId, cardTemplate).generate();
-            cardList.addItem(card);
-          },
-        },
-        ".cards"
-      );
-      cardList.renderItems();
-      // addCard(cardsContainer, new Card(card, userId, cardTemplate).generate());
-      closePopup(addPopup);
-      e.target.reset();
-    })
-    .catch(error => console.log(error))
-    .finally(() => {
-      renderLoading(e, false, addPopup, "Создать");
-    });
+// export function handleSubmitAdding(e) {
+//   e.preventDefault();
+//   api.sendNewCardToServer(placeInput.value, urlInput.value)
+//     .then(card => {
+//       const cardList = new Section(
+//         {
+//           items: [card],
+//           renderer: (el) => {
+//             const card = new Card(el, userId, cardTemplate).generate();
+//             cardList.addItem(card);
+//           },
+//         },
+//         ".cards"
+//       );
+//       cardList.renderItems();
+//       // addCard(cardsContainer, new Card(card, userId, cardTemplate).generate());
+//       closePopup(addPopup);
+//       e.target.reset();
+//     })
+//     .catch(error => console.log(error))
+//     .finally(() => {
+//       renderLoading(e, false, addPopup, "Создать");
+//     });
 
-}
+// }
 
 export function handleSubmitAvatar(e) {
   e.preventDefault();
@@ -152,28 +205,28 @@ popups.forEach(popup => {
 });
 
 editButton.addEventListener('click', () => {
-  setEditPopup();
-  editPopupForm.open();
+  setEditPopup()
+    .then(() => editPopupForm.open());
 });
 
 addButton.addEventListener('click', () => {
-  openPopup(addPopup);
+  addPopupForm.open();
   processedForms[avatarPopup.querySelector(formSelectors.formSelector).name].toggleButtonState();
 });
 // popupEditFormElement.addEventListener('submit', (e) => {
 //   renderLoading(e, true, editPopup);
 //   handleSubmit(e);
 // });
-popupAddFormElement.addEventListener('submit', (e) => {
-  renderLoading(e, true, addPopup)
-  handleSubmitAdding(e)
-});
-popupAvatarFormELement.addEventListener('submit', (e) => {
-  renderLoading(e, true, avatarPopup);
-  handleSubmitAvatar(e);
-});
+// popupAddFormElement.addEventListener('submit', (e) => {
+//   renderLoading(e, true, addPopup)
+//   handleSubmitAdding(e)
+// });
+// popupAvatarFormELement.addEventListener('submit', (e) => {
+//   renderLoading(e, true, avatarPopup);
+//   handleSubmitAvatar(e);
+// });
 editAvatarButton.addEventListener('click', () => {
-  openPopup(avatarPopup);
+  avatarPopupForm.open()
   processedForms[avatarPopup.querySelector(formSelectors.formSelector).name].toggleButtonState();
 }
 );
