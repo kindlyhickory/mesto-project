@@ -33,9 +33,9 @@ export const config = {
   }
 }
 
-export const forms = Array.from(document.forms);
-export const processedForms = {}
-export const formSelectors = {
+
+ export const processedForms = {}
+ export const formSelectors = {
   formSelector: '.popup__data',
   inputSelector: '.popup__item',
   submitButtonSelector: '.popup__save',
@@ -45,44 +45,21 @@ export const formSelectors = {
   errorClass: 'popup__input-error',
 }
 
+ export const cardTemplate = ".card-template";
 
-export const popups = document.querySelectorAll(".popup");
+ export const editButton = document.querySelector(".profile__edit-button");
+ export const addButton = document.querySelector(".profile__add-button");
+ export const editAvatarButton = document.querySelector(
+   ".profile__image-container"
+ );
 
-// edit popup elements
-export const editPopup = document.querySelector(".popup_edit");
-export const editButton = document.querySelector(".profile__edit-button");
-export const popupEditFormElement = editPopup.querySelector(".popup__data");
-export const nameInput = editPopup.querySelector(".popup__name");
-export const jobInput = editPopup.querySelector(".popup__famed");
-
-//add popup elements
-export const addButton = document.querySelector(".profile__add-button");
-export const addPopup = document.querySelector(".popup_add");
-export const popupAddFormElement = addPopup.querySelector('.popup__data');
-export const placeInput = addPopup.querySelector(".popup__place-title");
-export const urlInput = addPopup.querySelector(".popup__image-link");
-
-//image popup elements
-export const imagePopup = document.querySelector('.popup_image');
-export const imageSpace = imagePopup.querySelector('.popup__image');
-export const imageTitle = imagePopup.querySelector('.popup__image-title');
-
-//profile elements
-export const profileAvatar = document.querySelector('.profile__image');
-export const profileName = document.querySelector('.profile__name');
-export const profileDescription = document.querySelector('.profile__description');
-export const submitButtonSelector = '.popup__save';
-export const disabledButtonClass = 'popup__save_type_inactive';
-export const inputSelector = '.popup__item';
+ const editPopup = document.querySelector(".popup_edit");
+ export const nameInput = editPopup.querySelector(".popup__name");
+ export const jobInput = editPopup.querySelector(".popup__famed");
 
 
-export const inputListAddPopup = Array.from(addPopup.querySelectorAll(`${inputSelector}`));
-export const submitButtonAddPopup = addPopup.querySelector(`${submitButtonSelector}`);
+ export const profileAvatar = document.querySelector('.profile__image');
+ export const profileName = document.querySelector('.profile__name');
+ export const profileDescription = document.querySelector('.profile__description');
 
 
-//avatar popup els
-export const editAvatarButton = document.querySelector('.profile__image-container');
-export const avatarPopup = document.querySelector('.popup_avatar-change')
-export const popupAvatarFormELement = avatarPopup.querySelector('.popup__data');
-export const avatarInputElement = avatarPopup.querySelector('.popup__avatar');
-export const avatarSaveButton = avatarPopup.querySelector('.popup__save');

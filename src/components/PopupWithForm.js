@@ -1,10 +1,10 @@
-import Popup from "./modal.js";
+import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
   constructor({ selector, submitCalback }) {
     super(selector);
     this._calback = submitCalback;
-    this._form = this._popup.querySelector(".popup__data");
+    this.form = this._popup.querySelector(".popup__data");
   }
 
   _getInputValues() {
@@ -16,7 +16,7 @@ export default class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._form.addEventListener('submit', (e) => {
+    this.form.addEventListener('submit', (e) => {
       e.preventDefault();
       this._calback(this._getInputValues());
     });
@@ -24,6 +24,6 @@ export default class PopupWithForm extends Popup {
 
   close() {
     super.close();
-    this._form.reset();
+    this.form.reset();
   }
 }

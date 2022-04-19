@@ -1,11 +1,4 @@
-import { imageSpace, imageTitle, openPopup, imagePopup, closePopup } from "./modal.js";
-import { deletePopup, deleteButtonPopup } from "./constants.js";
-
 import { api, popupWithImage } from "./index.js";
-
-
-const cardTemplate = '.card-template';
-const cardsContainer = document.querySelector('.cards');
 
 
 export class Card {
@@ -32,7 +25,7 @@ export class Card {
     this._deleteButton = this._element.querySelector('.cards__delete-button');
 
     this._card.likes.forEach(profile => {
-      if (this._userID === profile._id) {
+      if (this._userId === profile._id) {
         this._likeButton.classList.add("cards__like-button_activated");
       }
     })
@@ -50,7 +43,6 @@ export class Card {
     this._likeButton.addEventListener('click', (evt) => this._toggleLike(evt, this._card._id, this._likeCountEl));
     this._element.querySelector('.cards__image').addEventListener('click', () => {
       popupWithImage.open(this._cardImage.src, this._cardTitle.textContent);
-      // openPopup(imagePopup);
     });
     this._cardImage.setAttribute("src", this._card.link);
     this._cardImage.setAttribute("alt", this._card.name);
@@ -80,19 +72,7 @@ export class Card {
   _updateLikeCounter(likeCounterElement, likeCount) {
     likeCounterElement.textContent = likeCount;
   }
-
 }
 
-// cards_adding
-// function addCard(container, cardElement) {
-//   container.prepend(cardElement);
-// }
 
-// card image show
-// function setImagePopup(cardImage, popupImageTitle) {
-//   imageSpace.setAttribute("src", cardImage);
-//   imageSpace.setAttribute("alt", popupImageTitle);
-//   imageTitle.textContent = popupImageTitle;
-// }
 
-export { cardTemplate, cardsContainer }
