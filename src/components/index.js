@@ -108,7 +108,6 @@ export function setEditPopup() {
       jobInput.setAttribute("value", user.about);
       return Promise.resolve();
     })
-    .catch(error => console.log(error));
 }
 
 function formingDoc() {
@@ -136,7 +135,8 @@ editButton.addEventListener('click', () => {
     .then(() => {
       editPopupForm.open();
       processedForms[editPopupForm.form.name].checkForm();
-    });
+    })
+    .catch((error) => console.log(error));
 });
 
 addButton.addEventListener('click', () => {

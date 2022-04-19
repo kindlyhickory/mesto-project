@@ -6,9 +6,9 @@ export default class UserInfo {
 
     getUserInfo(getUserInfoApi) {
         return getUserInfoApi()
-                .then(user => {
-                    return Promise.resolve(user);
-                })
+                // .then(user => {
+                //     return Promise.resolve(user);
+                // })
     }
 
     setUserInfo(user, setUserInfoApi) {
