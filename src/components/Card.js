@@ -1,4 +1,4 @@
-import { api, popupWithImage } from "./index.js";
+import { api, popupWithImage } from "../pages/index.js";
 
 
 export class Card {

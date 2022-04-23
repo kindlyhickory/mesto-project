@@ -1,4 +1,4 @@
-import '../pages/index.css';
+import '../index.css';
 import {
   editAvatarButton,
   processedForms,
@@ -12,32 +12,41 @@ import {
   profileAvatar,
   config,
   cardTemplate,
-} from "./constants.js";
+  profileNameSelector,
+  profileDescriptionSelector,
+  editPopupSelector,
+  imagePopupSelector,
+  avatarChangePopupSelector,
+  addPopupSelector
+} from "../utils/constants.js";
 
-import { Card } from './Card.js';
-import Api from './Api.js';
-import Section from "./Section.js";
-import PopupWithImage from "./PopupWithImage.js";
-import PopupWithForm from './PopupWithForm.js';
-import UserInfo from './UserInfo.js';
-import FormValidator  from "./FormValidator ";
-import { setAvatar, setDOMUserData } from './profile.js';
-import { renderLoading } from './utils';
+import { Card } from '../components/Card.js';
+import Api from '../components/Api.js';
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+import FormValidator from "../components/FormValidator ";
+import { setAvatar, setDOMUserData } from '../components/profile.js';
+import { renderLoading } from '../utils/utils';
 
 
 export let userId
 export const api = new Api(config);
 const userInfo = new UserInfo({
-  nameSelector: ".profile__name",
-  aboutSelector: ".profile__description",
+  nameSelector: profileNameSelector,
+  aboutSelector: profileDescriptionSelector,
 });
 
-export const popupWithImage = new PopupWithImage(".popup_image");
+
+// popups creating
+// imagePopup
+export const popupWithImage = new PopupWithImage(imagePopupSelector);
 popupWithImage.setEventListeners();
 
-
+// editPopup
 const editPopupForm = new PopupWithForm({
-  selector: ".popup_edit",
+  selector: editPopupSelector,
   submitCalback: (user) => {
     renderLoading(true, editPopupForm._popup)
     userInfo.setUserInfo(user, api.changeUserData.bind(api))
@@ -55,9 +64,11 @@ const editPopupForm = new PopupWithForm({
 
 editPopupForm.setEventListeners();
 
+
+// avatarPopup
 const avatarPopupForm = new PopupWithForm({
-  selector: ".popup_avatar-change",
-  submitCalback: ({avatar}) => {
+  selector: avatarChangePopupSelector,
+  submitCalback: ({ avatar }) => {
     renderLoading(true, avatarPopupForm._popup)
     api.changeAvatar(avatar)
       .then(user => {
@@ -73,29 +84,31 @@ const avatarPopupForm = new PopupWithForm({
 
 avatarPopupForm.setEventListeners();
 
+
+//addPopup
 const addPopupForm = new PopupWithForm({
-  selector: ".popup_add",
-  submitCalback: ({title, picture}) => {
+  selector: addPopupSelector,
+  submitCalback: ({ title, picture }) => {
     renderLoading(true, addPopupForm._popup);
     api.sendNewCardToServer(title, picture)
-    .then(card => {
-      const cardList = new Section(
-        {
-          items: [card],
-          renderer: (el) => {
-            const card = new Card(el, userId, cardTemplate).generate();
-            cardList.addItem(card);
+      .then(card => {
+        const cardList = new Section(
+          {
+            items: [card],
+            renderer: (el) => {
+              const card = new Card(el, userId, cardTemplate).generate();
+              cardList.addItem(card);
+            },
           },
-        },
-        ".cards"
-      );
-      cardList.renderItems();
-      addPopupForm.close();
-    })
-    .catch(error => console.log(error))
-    .finally(() => {
-      renderLoading( false, addPopupForm._popup, "Создать");
-    });
+          ".cards"
+        );
+        cardList.renderItems();
+        addPopupForm.close();
+      })
+      .catch(error => console.log(error))
+      .finally(() => {
+        renderLoading(false, addPopupForm._popup, "Создать");
+      });
   },
 });
 

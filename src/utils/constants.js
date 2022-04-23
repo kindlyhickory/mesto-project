@@ -34,8 +34,8 @@ export const config = {
 }
 
 
- export const processedForms = {}
- export const formSelectors = {
+export const processedForms = {}
+export const formSelectors = {
   formSelector: '.popup__data',
   inputSelector: '.popup__item',
   submitButtonSelector: '.popup__save',
@@ -45,21 +45,29 @@ export const config = {
   errorClass: 'popup__input-error',
 }
 
- export const cardTemplate = ".card-template";
+export const cardTemplate = ".card-template";
 
- export const editButton = document.querySelector(".profile__edit-button");
- export const addButton = document.querySelector(".profile__add-button");
- export const editAvatarButton = document.querySelector(
-   ".profile__image-container"
- );
+export const editButton = document.querySelector(".profile__edit-button");
+export const addButton = document.querySelector(".profile__add-button");
+export const editAvatarButton = document.querySelector(
+  ".profile__image-container"
+);
 
- const editPopup = document.querySelector(".popup_edit");
- export const nameInput = editPopup.querySelector(".popup__name");
- export const jobInput = editPopup.querySelector(".popup__famed");
+export const imagePopupSelector = ".popup_image";
+export const editPopupSelector = ".popup_edit";
+export const avatarChangePopupSelector = '.popup_avatar-change';
+export const addPopupSelector = ".popup_add";
+
+const editPopup = document.querySelector(editPopupSelector);
+export const nameInput = editPopup.querySelector(".popup__name");
+export const jobInput = editPopup.querySelector(".popup__famed");
 
 
- export const profileAvatar = document.querySelector('.profile__image');
- export const profileName = document.querySelector('.profile__name');
- export const profileDescription = document.querySelector('.profile__description');
+export const profileNameSelector = ".profile__name";
+export const profileDescriptionSelector = ".profile__description";
+
+export const profileAvatar = document.querySelector('.profile__image');
+export const profileName = document.querySelector(profileNameSelector);
+export const profileDescription = document.querySelector(profileDescriptionSelector);
 
 
