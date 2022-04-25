@@ -18,5 +18,10 @@
 
 
 ## Запуск:
-npm i  
+npm i
 npm run build
+
+
+Работа над JS в парадигме ООП  выполнялась совместно Дмитрием Барановым:
+Git : https://github.com/DmitryBaranovAndreevich
+Email: baranow.dmitry@gmail.com
