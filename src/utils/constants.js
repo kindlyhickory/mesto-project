@@ -66,7 +66,9 @@ export const jobInput = editPopup.querySelector(".popup__famed");
 export const profileNameSelector = ".profile__name";
 export const profileDescriptionSelector = ".profile__description";
 
-export const profileAvatar = document.querySelector('.profile__image');
+
+export const profileAvatarSelector = '.profile__image'
+export const profileAvatar = document.querySelector(profileAvatarSelector);
 export const profileName = document.querySelector(profileNameSelector);
 export const profileDescription = document.querySelector(profileDescriptionSelector);
 

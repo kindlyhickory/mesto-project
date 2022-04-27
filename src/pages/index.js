@@ -17,7 +17,8 @@ import {
   editPopupSelector,
   imagePopupSelector,
   avatarChangePopupSelector,
-  addPopupSelector
+  addPopupSelector,
+  profileAvatarSelector
 } from "../utils/constants.js";
 
 import { Card } from '../components/Card.js';
@@ -28,29 +29,27 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import FormValidator from "../components/FormValidator ";
 import { setAvatar, setDOMUserData } from '../components/profile.js';
-import { renderLoading } from '../utils/utils';
 
 
-export let userId
 export const api = new Api(config);
 const userInfo = new UserInfo({
   nameSelector: profileNameSelector,
   aboutSelector: profileDescriptionSelector,
+  avatarSelector: profileAvatarSelector,
 });
-    const cardList = new Section(
-      {
-        renderer: (el) => {
-          return new Card(
-            el,
-            userId,
-            cardTemplate,
-            api,
-            popupWithImage
-          ).generate();
-        },
-      },
-      ".cards"
-    );
+userInfo.getUserInfo(api.getUserData.bind(api));
+
+function createCard(element) {
+  const cardElement = new Card(element, userInfo.id, cardTemplate, api, popupWithImage).generate();
+  return cardElement;
+}
+
+const cardList = new Section(
+  {
+    renderer: createCard
+  },
+  ".cards"
+);
 
 // popups creating
 // imagePopup
@@ -65,6 +64,9 @@ const editPopupForm = new PopupWithForm({
     userInfo.setUserInfo(user, api.changeUserData.bind(api))
       .then((user) => {
         editPopupForm.close();
+        // При использовании метода close происходит reset формы и соответственно возврат в значений инпутов формы в состояние при открытии,
+        // Соответственно значение полей меняется в стандартное и при анимации исчезановении попапа видны начальные значения. Для того, чтобы
+        // избежать этого, значения инпутов меняем в те, которые приходят после изменения.
         editPopupForm.form.elements.input_name.value = user.name;
         editPopupForm.form.elements.famed_by.value = user.about;
       })
@@ -131,9 +133,8 @@ export function setEditPopup() {
 }
 
 function formingDoc() {
-  Promise.all([api.getUserData(), api.getCards()])
+  Promise.all([userInfo.getUserInfo(api.getUserData.bind(api)), api.getCards()])
     .then(([profile, cards]) => {
-      userId = profile._id;
       setDOMUserData(profile.name, profile.about, profile.avatar, profileName, profileDescription, profileAvatar, profile._id)
       cards.forEach(card => cardList.addItem(card))
     })
