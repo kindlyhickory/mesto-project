@@ -27,10 +27,10 @@ export default class FormValidator {
     });
   }
 
-  checkForm() {
+  resetValidation() {
+    this.toggleButtonState();
     this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
-      this.toggleButtonState();
     });
   }
 

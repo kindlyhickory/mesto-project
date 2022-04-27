@@ -37,7 +37,20 @@ const userInfo = new UserInfo({
   nameSelector: profileNameSelector,
   aboutSelector: profileDescriptionSelector,
 });
-
+    const cardList = new Section(
+      {
+        renderer: (el) => {
+          return new Card(
+            el,
+            userId,
+            cardTemplate,
+            api,
+            popupWithImage
+          ).generate();
+        },
+      },
+      ".cards"
+    );
 
 // popups creating
 // imagePopup
@@ -48,7 +61,7 @@ popupWithImage.setEventListeners();
 const editPopupForm = new PopupWithForm({
   selector: editPopupSelector,
   submitCalback: (user) => {
-    renderLoading(true, editPopupForm._popup)
+    editPopupForm.renderLoading(true);
     userInfo.setUserInfo(user, api.changeUserData.bind(api))
       .then((user) => {
         editPopupForm.close();
@@ -57,7 +70,7 @@ const editPopupForm = new PopupWithForm({
       })
       .catch((error) => console.log(error))
       .finally(() => {
-        renderLoading(false, editPopupForm._popup, "Сохранить");
+        editPopupForm.renderLoading(false, "Сохранить");
       });
   },
 });
@@ -69,7 +82,7 @@ editPopupForm.setEventListeners();
 const avatarPopupForm = new PopupWithForm({
   selector: avatarChangePopupSelector,
   submitCalback: ({ avatar }) => {
-    renderLoading(true, avatarPopupForm._popup)
+    avatarPopupForm.renderLoading(true);
     api.changeAvatar(avatar)
       .then(user => {
         setAvatar(profileAvatar, user.avatar, user.name);
@@ -77,7 +90,10 @@ const avatarPopupForm = new PopupWithForm({
       })
       .catch(error => console.log(error))
       .finally(() => {
-        renderLoading(false, avatarPopupForm._popup, "Сохранить");
+        avatarPopupForm.renderLoading(
+          false,
+          "Сохранить"
+        );
       });
   },
 });
@@ -89,25 +105,16 @@ avatarPopupForm.setEventListeners();
 const addPopupForm = new PopupWithForm({
   selector: addPopupSelector,
   submitCalback: ({ title, picture }) => {
-    renderLoading(true, addPopupForm._popup);
+    addPopupForm.renderLoading(true);
     api.sendNewCardToServer(title, picture)
       .then(card => {
-        const cardList = new Section(
-          {
-            items: [card],
-            renderer: (el) => {
-              const card = new Card(el, userId, cardTemplate).generate();
-              cardList.addItem(card);
-            },
-          },
-          ".cards"
-        );
-        cardList.renderItems();
+
+        cardList.addItem(card);
         addPopupForm.close();
       })
       .catch(error => console.log(error))
       .finally(() => {
-        renderLoading(false, addPopupForm._popup, "Создать");
+        addPopupForm.renderLoading(false, "Создать");
       });
   },
 });
@@ -128,17 +135,7 @@ function formingDoc() {
     .then(([profile, cards]) => {
       userId = profile._id;
       setDOMUserData(profile.name, profile.about, profile.avatar, profileName, profileDescription, profileAvatar, profile._id)
-      const cardList = new Section(
-        {
-          items: cards,
-          renderer: (el) => {
-            const card = new Card(el, userId, cardTemplate).generate();
-            cardList.addItem(card);
-          },
-        },
-        ".cards"
-      );
-      cardList.renderItems();
+      cards.forEach(card => cardList.addItem(card))
     })
     .catch(error => console.log(error));
 }
@@ -147,19 +144,19 @@ editButton.addEventListener('click', () => {
   setEditPopup()
     .then(() => {
       editPopupForm.open();
-      processedForms[editPopupForm.form.name].checkForm();
+      processedForms[editPopupForm.form.name].resetValidation();
     })
     .catch((error) => console.log(error));
 });
 
 addButton.addEventListener('click', () => {
   addPopupForm.open();
-  processedForms[addPopupForm.form.name].checkForm();
+  processedForms[addPopupForm.form.name].resetValidation();
 });
 
 editAvatarButton.addEventListener('click', () => {
   avatarPopupForm.open();
-  processedForms[avatarPopupForm.form.name].checkForm();
+  processedForms[avatarPopupForm.form.name].resetValidation();
 });
 
 //Document loaded
