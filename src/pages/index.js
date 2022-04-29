@@ -7,9 +7,7 @@ import {
   addButton,
   nameInput,
   jobInput,
-  profileName,
-  profileDescription,
-  profileAvatar,
+
   config,
   cardTemplate,
   profileNameSelector,
@@ -28,7 +26,6 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import FormValidator from "../components/FormValidator ";
-import { setAvatar, setDOMUserData } from '../components/profile.js';
 
 
 export const api = new Api(config);
@@ -37,10 +34,10 @@ const userInfo = new UserInfo({
   aboutSelector: profileDescriptionSelector,
   avatarSelector: profileAvatarSelector,
 });
-userInfo.getUserInfo(api.getUserData.bind(api));
+
 
 function createCard(element) {
-  const cardElement = new Card(element, userInfo.id, cardTemplate, api, popupWithImage).generate();
+  const cardElement = new Card(element, userInfo.getUserInfo().id, cardTemplate, api, popupWithImage).generate();
   return cardElement;
 }
 
@@ -61,8 +58,9 @@ const editPopupForm = new PopupWithForm({
   selector: editPopupSelector,
   submitCalback: (user) => {
     editPopupForm.renderLoading(true);
-    userInfo.setUserInfo(user, api.changeUserData.bind(api))
+    api.changeUserData(user.input_name,user.famed_by)
       .then((user) => {
+        userInfo.setUserInfo(user);
         editPopupForm.close();
         // При использовании метода close происходит reset формы и соответственно возврат в значений инпутов формы в состояние при открытии,
         // Соответственно значение полей меняется в стандартное и при анимации исчезановении попапа видны начальные значения. Для того, чтобы
@@ -87,7 +85,7 @@ const avatarPopupForm = new PopupWithForm({
     avatarPopupForm.renderLoading(true);
     api.changeAvatar(avatar)
       .then(user => {
-        setAvatar(profileAvatar, user.avatar, user.name);
+        userInfo.setAvatar(user);
         avatarPopupForm.close();
       })
       .catch(error => console.log(error))
@@ -124,30 +122,25 @@ const addPopupForm = new PopupWithForm({
 addPopupForm.setEventListeners();
 
 export function setEditPopup() {
-  return userInfo.getUserInfo(api.getUserData.bind(api))
-    .then(user => {
-      nameInput.setAttribute("value", user.name);
-      jobInput.setAttribute("value", user.about);
-      return Promise.resolve();
-    })
+  const user = userInfo.getUserInfo();
+  nameInput.setAttribute("value", user.name);
+  jobInput.setAttribute("value", user.about);
 }
 
 function formingDoc() {
-  Promise.all([userInfo.getUserInfo(api.getUserData.bind(api)), api.getCards()])
+  Promise.all([api.getUserData(), api.getCards()])
     .then(([profile, cards]) => {
-      setDOMUserData(profile.name, profile.about, profile.avatar, profileName, profileDescription, profileAvatar, profile._id)
-      cards.forEach(card => cardList.addItem(card))
+      userInfo.setUserInfo(profile);
+      userInfo.setId(profile);
+      userInfo.setAvatar(profile);
+      cardList.renderItems(cards);
     })
     .catch(error => console.log(error));
 }
 
 editButton.addEventListener('click', () => {
   setEditPopup()
-    .then(() => {
-      editPopupForm.open();
-      processedForms[editPopupForm.form.name].resetValidation();
-    })
-    .catch((error) => console.log(error));
+  editPopupForm.open();
 });
 
 addButton.addEventListener('click', () => {
