@@ -65,8 +65,6 @@ const editPopupForm = new PopupWithForm({
         // При использовании метода close происходит reset формы и соответственно возврат в значений инпутов формы в состояние при открытии,
         // Соответственно значение полей меняется в стандартное и при анимации исчезановении попапа видны начальные значения. Для того, чтобы
         // избежать этого, значения инпутов меняем в те, которые приходят после изменения.
-        editPopupForm.form.elements.input_name.value = user.name;
-        editPopupForm.form.elements.famed_by.value = user.about;
       })
       .catch((error) => console.log(error))
       .finally(() => {
